@@ -18,16 +18,16 @@ class Authorize
    * @param string $password
    * @param bool $remember
    * 
-   * @return string
+   * @return array
    */
-  public static function logIn(string $login, string $password, ?bool $remember = false): string
+  public static function logIn(string $login, string $password, ?bool $remember = false): array
   {
-    $result = 'Введены не верные логин или пароль';
+    $result = ['type' => 'ERROR', 'text' => 'Введены не верные логин или пароль'];
     if ( Example::canAuth($login, $password) ) {
         $user = new User();
         $user->findByLogin($login);
         self::Auth($user, $remember);
-        $result = 'Авторизация прошла успешно!';
+        $result = ['type' => 'OK', 'text' => 'Авторизация прошла успешно!'];
     }
     return $result;
   }
@@ -35,14 +35,14 @@ class Authorize
   /**
    * Разлогинить пользователя
    * 
-   * @return string
+   * @return array
    */
-  public static function logOut(): string
+  public static function logOut(): array
   {
     $_SESSION['isAuth'] = false;
     unset($_SESSION['USER'], $_COOKIE['login'], $_COOKIE['key']);
     session_destroy();
-    return 'Вы разлогинились ...';
+    return ['type' => 'OK', 'text' => 'Вы разлогинились ...'];
   }
 
   /**

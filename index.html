@@ -3,18 +3,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login form</title>
+  <title>Auth Form</title>
+  	<!--Bootsrap 4 CDN-->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+  <!--Fontawesome CDN-->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+<!--Custom styles-->
   <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
-  <div class="preloader"></div>
-  <div id="app">
-    <LoginForm>
+  <div class="preloader" v-show="preloader">
+    <div class="circles">
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+    </div>
   </div>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+  <div id="app" class="container">
+    <div class="d-flex justify-content-center h-100">
+      <form-component
+        v-bind:message="message"
+        @ajax="ajax"
+        v-show="showForm"
+      ></form-component>
+      <welcome-component
+        v-bind:username="username"
+        v-show="!showForm"
+      ></welcome-component>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="/assets/js/vue.js"></script>
 <script>
-  const app = new Vue({
+  Vue.component('form-component', {
+    props: {
+      message: String
+    },
+    data() {
+      return {
+        login: '',
+        upw: '',
+        remember: false,
+        disabledBtn: false
+      }
+    },
+    template: `
+      <div class="card">
+        <div class="card-header">
+          <h3>Авторизация</h3>
+          <hr class="bg-light">
+          <span class="text-light"> {{ message }} </span>
+        </div>
+        <div class="card-body">
+          <form @submit="submitForm">
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-user"></i></span>
+              </div>
+              <input type="text" v-model="login" id="login" name="login" class="form-control" placeholder="логин">
+            </div>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-key"></i></span>
+              </div>
+              <input type="password" v-model="upw" id="upw" name="upw" class="form-control" placeholder="пароль">
+            </div>
+            <div class="row align-items-center remember">
+              <input type="checkbox" v-model="remember" id="remember" name="remember">Запомнить меня
+            </div>
+            <div class="form-group">
+              <input type="submit" value="Войти" class="btn float-right login_btn" :disabled=disabledBtn>
+            </div>
+          </form>
+        </div>
+      </div>
+    `,
+    methods: {
+      submitForm: function (event) {
+        event.preventDefault();
+        let props = {
+          login: this.login,
+          password: this.upw,
+          remember: this.remember === true ? "Y" : "N",
+        };
+        this.$emit('ajax', props);
+      }
+    },
+  });
+
+  Vue.component('welcome-component', {
+    props: {
+      username: String
+    },
+    template: `
+      <div class="card text-light text-bold">
+        <div class="card-header">
+          Добро пожаловать, {{ username }}!
+        </div>
+        <div class="card-body d-flex justify-content-center align-items-center h-100 ">
+          Вы авторизовались!
+        </div>
+      </div>
+    `
+  })
+
+  var app = new Vue({
     el: '#app',
+    data: {
+      username: 'Пользователь',
+      message: '',
+      showForm: true,
+      preloader: true
+    },
+    mounted() {
+      setTimeout(() => {
+        this.preloader = false
+      }, 5000);
+    },
+    methods: {
+      ajax: async function(params) {
+        const res = await axios.get("/api/auth.php" , {
+          params: params
+        });
+        if (res.status == 200) {
+          this.message = res.data.result;
+          if (res.data.success) {
+            this.showForm = false;
+            this.username = res.data.user;
+          }
+        } 
+      }
+    }
   });
 </script>
 </body>

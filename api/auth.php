@@ -6,6 +6,14 @@ $login = htmlspecialchars($_REQUEST['login']);
 $password = htmlspecialchars($_REQUEST['password']);
 $remember = ( isset($_REQUEST['remember']) && $_REQUEST['remember'] == "N" ? false : true);
 
-$arOut['result'] = Authorize::logIn($login, $password, $remember);
+$authRes = Authorize::logIn($login, $password, $remember);
+if ($authRes['type'] == 'OK') {
+  $arOut['success'] = true;
+  $arOut['user'] = $_SESSION['USER']->getInfo()['NAME'];
+} else {
+  $arOut['success'] = false;
+}
+
+$arOut['result'] = $authRes['text'];
 
 echo json_encode($arOut, JSON_UNESCAPED_UNICODE);

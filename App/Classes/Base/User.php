@@ -11,25 +11,63 @@ use Example;
  */
 class User
 {
-  protected static $name;
-  protected static $email;
-  protected static $registered;
-  protected static $login;
-  private static $hash;
+  /**
+   * Имя пользователя
+   * 
+   * @var string 
+   */
+  protected $name;
+  
+  /**
+   * Электронная почта пользователя
+   * 
+   * @var string
+   */
+  protected $email;
+  /**
+   * Дата-время регистрации пользователя
+   * 
+   * @var string
+   */
+  protected $registered;
+
+  /**
+   * Логин пользователя
+   * 
+   * @var string
+   */
+  protected $login;
+
+  /**
+   * Хэш пароля пользователя
+   * 
+   * @var string
+   */
+  private $hash;
 
   /**
    * Получить данные о пользователе в текущем объекта
    * 
    * @return array
    */
-  public static function getInfo(): array
+  public function getInfo(): array
   {
     return [
-      'NAME' => self::$name,
-      'EMAIL' => self::$email,
-      'REGISTER_DATE' => self::$registered,
-      'LOGIN' => self::$login
+      'NAME' => $this->name,
+      'EMAIL' => $this->email,
+      'REGISTER_DATE' => $this->registered,
+      'LOGIN' => $this->login
     ];
+  }
+
+  /**
+   * Проверка авторизации пользователя
+   * 
+   * @return bool
+   */
+  public function isAuth(): bool
+  {
+    return !empty($this->login);
   }
 
   /**
@@ -37,18 +75,18 @@ class User
    * 
    * @return string
    */
-  public static function getLogin(): string
+  public function getLogin(): string
   {
-    return self::$login;
+    return $this->login;
   }
   /**
    * Получить хэш от пароля пользователя в текущем объекте
    * 
    * @return string
    */
-  public static function getPasswordHash(): string
+  public function getPasswordHash(): string
   {
-    return self::$hash;
+    return $this->hash;
   }
 
   /**
@@ -61,7 +99,7 @@ class User
   public function findByLogin(string $login): void
   {
     if ( count( $user = Example::findUser($login) ) ) {
-      list(self::$login, self::$name, self::$email, self::$registered, self::$hash) = $user;
+      list($this->login, $this->name, $this->email, $this->registered, $this->hash) = $user;
     }
   }
 }
