@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Auth Form</title>
   	<!--Bootsrap 4 CDN-->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  
   <!--Fontawesome CDN-->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/assets/css/styles.css">
 </head>
 <body>
-  <div class="preloader" v-show="preloader">
+  <div id="preloader" class="preloader">
     <div class="circles">
       <div class="circle"></div>
       <div class="circle"></div>
@@ -36,6 +36,13 @@
       ></welcome-component>
     </div>
   </div>
+<script>
+  setTimeout(() => {
+    let preloader = document.getElementById('preloader');
+    preloader.style.opacity = '0';
+    preloader.style.visibility = 'hidden';
+  }, 5000);
+</script>
 <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
 <script src="/assets/js/vue.js"></script>
 <script>
@@ -116,13 +123,7 @@
     data: {
       username: 'Пользователь',
       message: '',
-      showForm: true,
-      preloader: true
-    },
-    mounted() {
-      setTimeout(() => {
-        this.preloader = false
-      }, 5000);
+      showForm: true
     },
     methods: {
       ajax: async function(params) {
@@ -132,8 +133,10 @@
         if (res.status == 200) {
           this.message = res.data.result;
           if (res.data.success) {
-            this.showForm = false;
             this.username = res.data.user;
+            setTimeout(() => {
+              this.showForm = false;
+            }, 3000);
           }
         } 
       }

@@ -19,6 +19,23 @@ html, body {
   margin-bottom: auto;
   width: 400px;
   background-color: rgba(0, 0, 0, 0.5) !important;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-transition: 0.5s opacity;
+  transition: 0.5s opacity;
+}
+
+.card[style*="display: none;"] {
+  width: 0px;
+  height: 0px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 .social_icon span {
@@ -99,8 +116,10 @@ input:focus {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #ffffff;
+  background-color: #18283f;
   z-index: 9999;
+  -webkit-transition: 0.8s all;
+  transition: 0.8s all;
 }
 
 .circles {
@@ -111,44 +130,83 @@ input:focus {
 }
 
 .circle {
-  width: 1.5vw;
-  height: 1.5vw;
-  margin: .75vw;
-  background-color: blue;
-  border-radius: 50%;
-  -webkit-animation-name: scaleIn;
-          animation-name: scaleIn;
-  -webkit-animation-duration: .7s;
-          animation-duration: .7s;
-  -webkit-transform: scale(0);
-          transform: scale(0);
+  width: 3vw;
+  height: 3vw;
+  border-radius: 100%;
+  margin: 2vw;
+  background-image: linear-gradient(145deg, rgba(255, 255, 255, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+  -webkit-animation: bounce 1.5s 0.5s linear infinite;
+          animation: bounce 1.5s 0.5s linear infinite;
 }
 
 .circle:nth-child(1) {
   -webkit-animation-delay: 0s;
           animation-delay: 0s;
+  background-color: #feb60a;
 }
 
 .circle:nth-child(2) {
-  -webkit-animation-delay: .05s;
-          animation-delay: .05s;
+  -webkit-animation-delay: .1s;
+          animation-delay: .1s;
+  background-color: #ff0062;
 }
 
 .circle:nth-child(3) {
-  -webkit-animation-delay: .1s;
-          animation-delay: .1s;
+  -webkit-animation-delay: .2s;
+          animation-delay: .2s;
+  background-color: #00dbf9;
 }
 
 .circle:nth-child(4) {
-  -webkit-animation-delay: .15s;
-          animation-delay: .15s;
+  -webkit-animation-delay: .3s;
+          animation-delay: .3s;
+  background-color: #da00f7;
 }
 
 .circle:nth-child(5) {
-  -webkit-animation-delay: .2s;
-          animation-delay: .2s;
+  -webkit-animation-delay: .4s;
+          animation-delay: .4s;
+  background-color: #004e00;
 }
 
-@-webkit-keyframes scaleIn {}
+@-webkit-keyframes bounce {
+  0%, 50%, 100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
+  }
+  25% {
+    -webkit-transform: scale(0.6);
+            transform: scale(0.6);
+    -webkit-filter: blur(3px);
+            filter: blur(3px);
+  }
+  75% {
+    -webkit-filter: blur(3px);
+            filter: blur(3px);
+    -webkit-transform: scale(1.4);
+            transform: scale(1.4);
+  }
+}
 
-@keyframes scaleIn {}
+@keyframes bounce {
+  0%, 50%, 100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-filter: blur(0px);
+            filter: blur(0px);
+  }
+  25% {
+    -webkit-transform: scale(0.6);
+            transform: scale(0.6);
+    -webkit-filter: blur(3px);
+            filter: blur(3px);
+  }
+  75% {
+    -webkit-filter: blur(3px);
+            filter: blur(3px);
+    -webkit-transform: scale(1.4);
+            transform: scale(1.4);
+  }
+}
