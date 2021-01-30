@@ -4,7 +4,9 @@ html, body {
   background-image: url('https://www.wallpaperflare.com/static/574/488/34/nature-landscape-mountains-starry-night-wallpaper.jpg');
   background-size: cover;
   background-repeat: no-repeat;
+  max-height: 100vh;
   height: 100%;
+  overflow: hidden;
   font-family: 'Numans', sans-serif;
 }
 
