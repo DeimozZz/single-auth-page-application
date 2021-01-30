@@ -1,6 +1,6 @@
 <b>Single Auth Page Application (SPA)</b><br>
 Одностраничное приложение для формы авторизации.<br>
-Выполнено с использованием VUE.js + AXIOS, PHP 7.*, Bootstrap 4, Font Awesome 5, SCSS<br>
+Выполнено с использованием VUE.js 2 + AXIOS 0.12, PHP 7.*, Bootstrap 4, Font Awesome 5, SCSS<br>
 Как заменитель базы данных используется класс "Example". В нём предопределены данные единственного пользователя:<br>
 <ul>
 <li>
